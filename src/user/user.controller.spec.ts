@@ -1,11 +1,11 @@
 import { Test, TestingModule } from '@nestjs/testing';
-import { UserController } from './user.controller';
-import { UserService } from './user.service';
-import { User } from '@prisma/client';
 import { HttpStatus, HttpException } from '@nestjs/common';
 import { PrismaModule } from '../prisma/prisma.module';
 import { PrismaService } from '../prisma/prisma.service';
 import { JwtService } from '@nestjs/jwt';
+import { UserController } from './user.controller';
+import { UserService } from './user.service';
+import { User } from '@prisma/client';
 
 describe('UserController', () => {
   let userController: UserController;

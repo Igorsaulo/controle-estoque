@@ -10,9 +10,10 @@ import {
   HttpStatus,
   Dependencies,
 } from "@nestjs/common";
+import { AuthGuard } from '../auth/auth.guard';
 import { UserService } from './user.service';
 import { User } from "@prisma/client";
-import { AuthGuard } from '../auth/auth.guard';
+
 
 @Controller('user')
 @Dependencies(UserService)
