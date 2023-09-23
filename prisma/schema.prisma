@@ -1,0 +1,114 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id       Int    @id @default(autoincrement())
+  name     String
+  email    String @unique
+  password String
+
+  //relational field
+  diary Diary[]
+}
+
+model Service {
+  serviceId   Int    @id @default(autoincrement())
+  name        String
+  price       Float
+  description String
+  imageUrl    String
+
+  //foreign key
+  taskId Int?
+  task   Tasks? @relation(fields: [taskId], references: [taskId])
+
+  //foreign key
+  saleId Int?
+  sale   Sale? @relation(fields: [saleId], references: [saleId])
+}
+
+model Diary {
+  diaryId   Int    @id @default(autoincrement())
+
+  //relational field
+  tasks Tasks[]
+
+  //foreign key
+  userId Int
+  user   User @relation(fields: [userId], references: [id])
+}
+
+model Tasks {
+  taskId   Int    @id @default(autoincrement())
+  name     String?
+  duration String?
+  status   String
+  date DateTime
+
+  //relational field
+  services Service[]
+  customer Customer[]
+
+  //foreign key
+  diaryId Int
+  diary   Diary @relation(fields: [diaryId], references: [diaryId])
+}
+
+model Product {
+  productId      Int    @id @default(autoincrement())
+  name           String
+  price          Float
+  desciption     String
+  imageUrl       String?
+  characteristcs String
+
+  //foreign key
+  orderId Int?
+  order   Order? @relation(fields: [orderId], references: [orderId])
+
+  //foreign key
+  saleId Int?
+  sale   Sale? @relation(fields: [saleId], references: [saleId])
+}
+
+model Order {
+  orderId      Int    @id @default(autoincrement())
+  date         DateTime
+  deliveryDate DateTime
+
+  //relational field
+  customer Customer[]
+  product Product[]
+}
+
+model Customer {
+  customerId   Int    @id @default(autoincrement())
+  name         String
+  firstNumber  String?
+  secondNumber String?
+  address      String?
+  city         String?
+
+  //foreign key
+  orderId Int?
+  order   Order? @relation(fields: [orderId], references: [orderId])
+
+  //foreign key
+  taskId Int?
+  task   Tasks? @relation(fields: [taskId], references: [taskId])
+}
+
+model Sale {
+  saleId Int @id @default(autoincrement())
+  date DateTime
+
+  //relational field
+  product Product[]
+  service Service[]
+}
