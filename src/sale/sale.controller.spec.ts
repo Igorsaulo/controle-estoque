@@ -126,7 +126,10 @@ describe('SaleController', () => {
 
     it('should handle get sale by id error', async () => {
       // Arrange
-      jest.spyOn(saleService, 'getById').mockRejectedValue(new HttpException('Sale getById failed', HttpStatus.BAD_REQUEST));
+      jest.spyOn(saleService, 'getById')
+      .mockRejectedValue(
+        new HttpException('Sale getById failed', 
+        HttpStatus.BAD_REQUEST));
 
       // Act & Assert
       try {

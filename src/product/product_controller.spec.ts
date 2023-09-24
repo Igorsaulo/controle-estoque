@@ -96,4 +96,58 @@ describe('ProductController', () => {
             }
         });
     });
+
+    describe('update', () => {
+        it('should update a product', async () => {
+            // Arrange
+            jest.spyOn(productService, 'update').mockResolvedValue(product);
+
+            // Act
+            const result = await productController.update(product.productId, product);
+
+            // Assert
+            expect(result).toEqual(product);
+        });
+
+        it('should handle update product error', async () => {
+            // Arrange
+            jest.spyOn(productService, 'update').mockRejectedValue(new HttpException('Product update failed', HttpStatus.BAD_REQUEST));
+
+            // Act & Assert
+            try {
+                await productController.update(product.productId, product);
+            } catch (error) {
+                expect(error).toBeInstanceOf(HttpException);
+                expect(error.message).toEqual('Product update failed');
+                expect(error.status).toEqual(HttpStatus.BAD_REQUEST);
+            }
+        });
+    });
+
+    describe('getById', () => {
+        it('should get a product by id', async () => {
+            // Arrange
+            jest.spyOn(productService, 'getById').mockResolvedValue(product);
+
+            // Act
+            const result = await productController.getById(product.productId);
+
+            // Assert
+            expect(result).toEqual(product);
+        });
+
+        it('should handle get product by id error', async () => {
+            // Arrange
+            jest.spyOn(productService, 'getById').mockRejectedValue(new HttpException('Product getById failed', HttpStatus.BAD_REQUEST));
+
+            // Act & Assert
+            try {
+                await productController.getById(product.productId);
+            } catch (error) {
+                expect(error).toBeInstanceOf(HttpException);
+                expect(error.message).toEqual('Product getById failed');
+                expect(error.status).toEqual(HttpStatus.BAD_REQUEST);
+            }
+        });
+    });
 });

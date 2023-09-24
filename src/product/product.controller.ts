@@ -12,8 +12,9 @@ import {
     Dependencies,
   } from "@nestjs/common";
   import { ProductService } from './product.service';
-  import { Product } from "@prisma/client";
   import { AuthGuard } from '../auth/auth.guard';
+  import { Product } from "@prisma/client";
+
   
   @Controller('product')
   @Dependencies(ProductService)

@@ -4,6 +4,8 @@ import { LoggerMiddleware } from './common/middleware/logger.middleware';
 import { AuthModule } from './auth/auth.module';
 import { PrismaModule } from './prisma/prisma.module';
 import { SaleService } from './sale/sale.service';
+import { TaskModule } from './task/task.module';
+import { TaskModule } from './nest/task/task.module';
 import { OrderModule } from './order/order.module';
 import { OrderService } from './order/order.service';
 import { OrderController } from './order/order.controller';
@@ -21,6 +23,7 @@ import { SaleService } from './sale/sale.service';
     PrismaModule,
     CustomerModule,
     OrderModule,
+    TaskModule,
   ],
   providers: [SaleService, CustomerService, OrderService],
   controllers: [SaleController, CustomerController, OrderController]
