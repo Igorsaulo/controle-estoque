@@ -1,4 +1,5 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
+import { Injectable } from '@nestjs/common';
+import { handlePrismaError } from '../utils/handlePrismaError';
 import { Product, Prisma } from '@prisma/client';
 import { PrismaService } from '../prisma/prisma.service';
 
@@ -6,20 +7,12 @@ import { PrismaService } from '../prisma/prisma.service';
 export class ProductService {
     constructor(private prisma: PrismaService) { }
 
-    private async handlePrismaError<T>(promise: Promise<T>): Promise<T> {
-        try {
-            return await promise;
-        } catch (error) {
-            throw new NotFoundException(error.message);
-        }
-    }
-
     async create(data: Prisma.ProductCreateInput): Promise<Product> {
-        return this.handlePrismaError(this.prisma.product.create({ data }));
+        return await handlePrismaError(this.prisma.product.create({ data }));
     }
 
     async delete(productId: number): Promise<Product> {
-        return this.handlePrismaError(
+        return await handlePrismaError(
             this.prisma.product.delete({
                 where: { productId },
             })
@@ -30,7 +23,7 @@ export class ProductService {
         productId: number,
         data: Prisma.ProductUpdateInput
     ): Promise<Product> {
-        return this.handlePrismaError(
+        return await handlePrismaError(
             this.prisma.product.update({
                 where: { productId },
                 data,
@@ -39,7 +32,7 @@ export class ProductService {
     }
 
     async getById(productId: number): Promise<Product> {
-        return this.handlePrismaError(
+        return await handlePrismaError(
             this.prisma.product.findUnique({
                 where: { productId },
             })
@@ -47,6 +40,6 @@ export class ProductService {
     }
 
     async getAll(): Promise<Product[]> {
-        return this.handlePrismaError(this.prisma.product.findMany());
+        return await handlePrismaError(this.prisma.product.findMany());
     }
 }

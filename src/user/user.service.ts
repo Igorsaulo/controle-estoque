@@ -1,27 +1,21 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
+import { Injectable } from '@nestjs/common';
+import { handlePrismaError } from '../utils/handlePrismaError';
 import { User } from '@prisma/client';
 import { PrismaService } from '../prisma/prisma.service';
 import * as bcrypt from 'bcrypt';
+
 
 @Injectable()
 export class UserService {
   constructor(private prisma: PrismaService) { }
 
-  private async handlePrismaError<T>(promise: Promise<T>): Promise<T> {
-    try {
-      return await promise;
-    } catch (error) {
-      throw new NotFoundException(error.message);
-    }
-  }
-
   async create(data: User): Promise<User> {
     data.password = await this.hashPassword(data.password);
-    return this.handlePrismaError(this.prisma.user.create({ data }));
+    return await handlePrismaError(this.prisma.user.create({ data }));
   }
 
   async delete(id: number): Promise<User> {
-    return this.handlePrismaError(
+    return await handlePrismaError(
       this.prisma.user.delete({
         where: { id },
       })
@@ -29,7 +23,7 @@ export class UserService {
   }
 
   async update(id: number, data: User): Promise<User> {
-    return this.handlePrismaError(
+    return await handlePrismaError(
       this.prisma.user.update({
         where: { id },
         data,
@@ -38,7 +32,7 @@ export class UserService {
   }
 
   async getByEmail(email: string): Promise<User> {
-    return this.handlePrismaError(
+    return await handlePrismaError(
       this.prisma.user.findUnique({
         where: { email },
       })

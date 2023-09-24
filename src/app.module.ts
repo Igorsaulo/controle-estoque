@@ -1,5 +1,5 @@
-import { Module,NestModule,MiddlewareConsumer } from '@nestjs/common';
-import { UserModule} from './user/user.module'; 
+import { Module, NestModule, MiddlewareConsumer } from '@nestjs/common';
+import { UserModule } from './user/user.module';
 import { LoggerMiddleware } from './common/middleware/logger.middleware';
 import { AuthModule } from './auth/auth.module';
 import { PrismaModule } from './prisma/prisma.module';
@@ -26,7 +26,11 @@ import { SaleService } from './sale/sale.service';
     TaskModule,
   ],
   providers: [SaleService, CustomerService, OrderService],
-  controllers: [SaleController, CustomerController, OrderController]
+  controllers: [
+    SaleController,
+    CustomerController,
+    OrderController,
+  ]
 })
-export class AppModule {}
+export class AppModule { }
 
