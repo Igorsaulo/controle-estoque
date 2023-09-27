@@ -7,11 +7,15 @@ import * as bcrypt from 'bcrypt';
 
 @Injectable()
 export class UserService {
-  constructor(private prisma: PrismaService) { }
+  constructor (private prisma: PrismaService) { }
 
   async create(data: User): Promise<User> {
-    data.password = await this.hashPassword(data.password);
-    return await handlePrismaError(this.prisma.user.create({ data }));
+    data.password = await this.hashPassword(
+      data.password
+    );
+    return await handlePrismaError(
+      this.prisma.user.create({ data })
+    );
   }
 
   async delete(id: number): Promise<User> {
